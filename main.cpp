@@ -8,7 +8,7 @@ using namespace std;
 
 int main() {
     Program program;
-    program.get_command();
+    program.run();
 
     return 0;
 }

@@ -8,7 +8,6 @@ class User {
 protected:
     int id;
     int age;
-    bool publisher;
     string username;
     string email;
     string password;

@@ -21,4 +21,10 @@ public:
     void show_message();
 };
 
+class PermissionDenied : public Error {
+private:
+public:
+    void show_message();
+};
+
 #endif

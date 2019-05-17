@@ -17,9 +17,13 @@ private:
     vector<string> methods = {"GET", "PUT", "POST", "DELETE"};
     vector<string> commands = {"signup", "login", "films", "followers", "money", "published",
                                 "replise", "comments", "followers", "buy", "rate", "purchased",
-                                "notifications", "notificationsread"};
+                                "notifications", "notificationsread", ""};
+    vector<string> usernames;
+    vector<User*> users;
 public:
     void run();
+
+    int character_location(string line, char character);
 
     void increase_id();
     void break_command(string line);
@@ -29,8 +33,12 @@ public:
     void check_command(string command);
 
     void get_command();
-    void analyse_method(string line, string method, string command);
-    void analyse_command(string line, string command);
+    void do_command(string line, string method, string command);
+    //void analyse_command(string line, string command);
+
+    void signup(string line);
+
+    vector<string> break_to_words(string line);
 };
 
 #endif

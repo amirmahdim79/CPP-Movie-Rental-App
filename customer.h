@@ -6,6 +6,7 @@
 class Customer : public User {
 private:
 public:
+    Customer(string username, string password, string email, int age, int id);
 };
 
 #endif

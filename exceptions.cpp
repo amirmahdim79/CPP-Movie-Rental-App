@@ -10,3 +10,7 @@ void UnknownCommand::show_message() {
 void BadRequest::show_message() {
     std::cout << "Bad Request" << std::endl;
 }
+
+void PermissionDenied::show_message() {
+    std::cout << "Permission Denied" << std::endl;
+}

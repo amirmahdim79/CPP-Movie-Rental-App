@@ -14,3 +14,7 @@ void BadRequest::show_message() {
 void PermissionDenied::show_message() {
     std::cout << "Permission Denied" << std::endl;
 }
+
+void UserNotFound::show_message() {
+    std::cout << "Not Found" << std::endl;
+}

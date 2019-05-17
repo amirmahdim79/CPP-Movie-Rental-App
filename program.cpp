@@ -70,6 +70,25 @@ void Program::check_command(string command) {
     }
 }
 
+void Program::check_username(string username) {
+    for (int i = 0; i < usernames.size(); i++) {
+        if (username == usernames[i]) {
+            Error* e = new BadRequest;
+            throw e;
+        }
+    }
+}
+
+void Program::check_user_exist(string username) {
+    for (int i = 0; i < usernames.size(); i++) {
+        if (username == usernames[i]) {
+            return;
+        }
+    }
+    Error* e = new UserNotFound;
+    throw e;
+}
+
 void Program::get_command() {
     string line;
     getline(cin, line);
@@ -154,6 +173,7 @@ void Program::signup(string line) {
                 publisher = true;
         }
     }
+    check_username(username);
     if (username == "" || age == 1000 || password == "" || email == "") {
         Error* e = new BadRequest;
         throw e;
@@ -164,4 +184,18 @@ void Program::signup(string line) {
     else
         user = new Publisher(username, password, email, age, id);
     increase_id();
+    users.push_back(user);
+    usernames.push_back(username);
+    login(username, password);
+}
+
+void Program::login(string username, string password) {
+    check_user_exist(username);
+    for (int i = 0; i < users.size(); i++) {
+        if (username == users[i]->get_username()) {
+            if (password == users[i]->get_password()) {
+                std::cout << "OK" << std::endl;
+            }
+        }
+    }
 }

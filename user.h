@@ -11,7 +11,11 @@ protected:
     string username;
     string email;
     string password;
+    bool publisher;
 public:
+    int get_id();
+    string get_password();
+    string get_username();
 };
 
 #endif

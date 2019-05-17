@@ -6,4 +6,5 @@ Customer::Customer(string username, string password, string email, int age, int 
     this-> email = email;
     this->age = age;
     this->id = id;
+    this->publisher = false;
 }

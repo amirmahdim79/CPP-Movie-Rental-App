@@ -14,6 +14,7 @@ using namespace std;
 class Program {
 private:
     int id = 0;
+    int active_user = -1;
     vector<string> methods = {"GET", "PUT", "POST", "DELETE"};
     vector<string> commands = {"signup", "login", "films", "followers", "money", "published",
                                 "replise", "comments", "followers", "buy", "rate", "purchased",
@@ -31,12 +32,14 @@ public:
 
     void check_method(string method);
     void check_command(string command);
+    void check_username(string username);
+    void check_user_exist(string username);
 
     void get_command();
     void do_command(string line, string method, string command);
-    //void analyse_command(string line, string command);
 
     void signup(string line);
+    void login(string username, string password);
 
     vector<string> break_to_words(string line);
 };

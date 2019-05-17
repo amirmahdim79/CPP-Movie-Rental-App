@@ -27,4 +27,10 @@ public:
     void show_message();
 };
 
+class UserNotFound : public Error {
+private:
+public:
+    void show_message();
+};
+
 #endif

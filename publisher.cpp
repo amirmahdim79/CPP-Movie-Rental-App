@@ -1,4 +1,5 @@
 #include "publisher.h"
+#include <iostream>
 
 Publisher::Publisher(string username, string password, string email, int age, int id) {
     this->username = username;
@@ -7,4 +8,8 @@ Publisher::Publisher(string username, string password, string email, int age, in
     this->age = age;
     this->id = id;
     this->publisher = true;
+}
+
+void Publisher::add_film(Film* film) {
+    films.push_back(film);
 }

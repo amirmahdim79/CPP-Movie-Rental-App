@@ -2,7 +2,7 @@
 #define USER_H_
 
 #include <string>
-using namespace std;
+#include "movie.h"
 
 class User {
 protected:
@@ -16,6 +16,9 @@ public:
     int get_id();
     string get_password();
     string get_username();
+    bool is_publisher();
+
+    virtual void add_film(Film* film) {}
 };
 
 #endif

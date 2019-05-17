@@ -11,3 +11,10 @@ string User::get_username() {
 int User::get_id() {
     return id;
 }
+
+bool User::is_publisher() {
+    if (publisher == true)
+        return true;
+    else
+        return false;
+}

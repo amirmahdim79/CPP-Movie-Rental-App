@@ -9,3 +9,7 @@ Film::Film(int year, int length, int price, string name, string summary, string 
     this->director = director;
     this->id = id;
 }
+
+int Film::get_id() {
+    return id;
+}

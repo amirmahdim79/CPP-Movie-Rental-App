@@ -194,7 +194,11 @@ void Program::do_command(string line, string method, string command) {
 
     }
     else if (method == "PUT") {
-
+        if (command == "films") {
+            int user = find_user(active_user);
+            check_access_publisher();
+            edit_film(line, user);
+        }
     }
     else if (method == "DELETE") {
         
@@ -280,5 +284,55 @@ void Program::add_film(string line, int user) {
     increase_film_id();
     all_films.push_back(film);
     users[user]->add_film(film);
+    std::cout << "OK" << std::endl;
+}
+
+void Program::edit_film(string line, int user) {
+    int film_id = NOTSET;
+    int year = NOTSET;
+    int length = NOTSET;
+    int price = NOTSET;
+    string name = EMPTYSTRING;
+    string summary = EMPTYSTRING;
+    string director = EMPTYSTRING;
+    Film* film;
+    vector<string> words = break_to_words(line);
+    for (int i = 0; i < words.size(); i++) {
+        if (words[i] == "film_id") {
+            film_id = stoi(words[i + 1]);
+            users[user]->has_film(film_id);
+            film = users[user]->get_film(film_id);
+        }
+    }
+    if (film_id == NOTSET) {
+        Error* e = new BadRequest;
+        throw e;
+    }
+    name = film->get_name();
+    summary = film->get_summary();
+    director = film->get_director();
+    year = film->get_year();
+    length = film->get_length();
+    price = film->get_price();
+    for (int i = 0; i < words.size(); i++) {
+        if (words[i] == "name")
+            name = words[i + 1];
+        if (words[i] == "summary")
+            summary = words[i + 1];
+        if (words[i] == "director")
+            director = words[i + 1];
+        if (words[i] == "year")
+            year = stoi(words[i + 1]);
+        if (words[i] == "length")
+            length = stoi(words[i + 1]);
+        if (words[i] == "price")
+            price = stoi(words[i + 1]);
+    }
+    film->set_name(name);
+    film->set_director(director);
+    film->set_length(length);
+    film->set_price(price);
+    film->set_summary(summary);
+    film->set_year(year);
     std::cout << "OK" << std::endl;
 }

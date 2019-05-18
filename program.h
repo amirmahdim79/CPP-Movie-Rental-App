@@ -45,6 +45,7 @@ public:
     void get_command();
     void do_command(string line, string method, string command);
     void add_film(string line, int user);
+    void edit_film(string line, int user);
 
     void signup(string line);
     void login(string username, string password);

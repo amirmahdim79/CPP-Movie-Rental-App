@@ -13,12 +13,14 @@ private:
     string name;
     string summary;
     string director;
+    double rate;
 public:
     Film(int year, int length, int price, string name, string summary, string director, int id);
     int get_id();
     int get_year() {return year;}
     int get_length() {return length;}
     int get_price() {return price;}
+    int get_rate() {return rate;}
     string get_name() {return name;}
     string get_summary() {return summary;}
     string get_director() {return director;}

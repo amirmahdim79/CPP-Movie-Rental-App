@@ -49,6 +49,7 @@ public:
     void add_film(string line, int user);
     void edit_film(string line, int user);
     void delete_film(string line, int user);
+    void show_published(string line, int user);
 
     void signup(string line);
     void login(string username, string password);

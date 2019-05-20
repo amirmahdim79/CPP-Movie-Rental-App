@@ -42,3 +42,16 @@ void Publisher::delete_film(int id) {
 void Publisher::show_followers() {
     //show followers
 }
+
+void Publisher::show_all_films() {
+    std::cout << "#. Film Id | Film Name | Film Length | Film price | Rate | Production Year | Film Director" << std::endl;
+    for (int i = 0; i < films.size(); i++) {
+        std::cout << i + 1 << ". " << films[i]->get_id() << " | " << films[i]->get_name() << " | " << films[i]->get_length() << " | " << films[i]->get_price() << " | " << films[i]->get_rate() << " | " << films[i]->get_year() << " | " << films[i]->get_director() << std::endl;
+    }
+}
+
+vector<Film*> Publisher::get_films() {
+    return films;
+}
+
+int Publisher::get_films_size() {return films.size();}

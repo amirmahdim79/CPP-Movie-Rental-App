@@ -18,3 +18,7 @@ void PermissionDenied::show_message() {
 void UserNotFound::show_message() {
     std::cout << "Not Found" << std::endl;
 }
+
+void FilmNotFound::show_message() {
+    std::cout << "Not Found" << std::endl;
+}

@@ -35,17 +35,20 @@ public:
     void break_command(string line);
     void read_method_command(string line, string command);
     void read_username_password(string line, string &username, string &password);
+    void delete_film_from_database(int id);
 
     void check_method(string method);
     void check_command(string command);
     void check_username(string username);
     void check_user_exist(string username);
     void check_access_publisher();
+    void check_film_exists(int id);
 
     void get_command();
     void do_command(string line, string method, string command);
     void add_film(string line, int user);
     void edit_film(string line, int user);
+    void delete_film(string line, int user);
 
     void signup(string line);
     void login(string username, string password);

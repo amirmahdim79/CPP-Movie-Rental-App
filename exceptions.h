@@ -33,4 +33,10 @@ public:
     void show_message();
 };
 
+class FilmNotFound : public Error {
+private:
+public:
+    void show_message();
+};
+
 #endif

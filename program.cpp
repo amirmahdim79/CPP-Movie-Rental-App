@@ -114,6 +114,15 @@ void Program::check_access_publisher() {
     }
 }
 
+void Program::check_film_exists(int id) {
+    for (int i = 0; i < all_films.size(); i++) {
+        if (id == all_films[i]->get_id())
+            return;
+    }
+    Error* e = new FilmNotFound;
+    throw e;
+}
+
 void Program::get_command() {
     string line;
     getline(cin, line);
@@ -171,6 +180,15 @@ void Program::read_username_password(string line, string &username, string &pass
     }
 }
 
+void Program::delete_film_from_database(int id) {
+    int selected_element;
+    for (int i = 0; i < all_films.size(); i++) {
+        if (id == all_films[i]->get_id())
+            selected_element = i;
+    }
+    all_films.erase(all_films.begin() + selected_element);
+}
+
 void Program::do_command(string line, string method, string command) {
     if (command == "") {
         Error* e = new BadRequest;
@@ -191,7 +209,9 @@ void Program::do_command(string line, string method, string command) {
         }
     }
     else if (method == "GET") {
-
+        if (command == "followers") {
+            //show followers
+        }
     }
     else if (method == "PUT") {
         if (command == "films") {
@@ -201,7 +221,11 @@ void Program::do_command(string line, string method, string command) {
         }
     }
     else if (method == "DELETE") {
-        
+        if (command == "films") {
+            int user = find_user(active_user);
+            check_access_publisher();
+            delete_film(line, user);
+        }
     }
 }
 
@@ -280,6 +304,7 @@ void Program::add_film(string line, int user) {
         Error* e = new BadRequest;
         throw e;
     }
+    //
     Film* film = new Film(year, length, price, name, summary, director, id);
     increase_film_id();
     all_films.push_back(film);
@@ -336,3 +361,20 @@ void Program::edit_film(string line, int user) {
     film->set_year(year);
     std::cout << "OK" << std::endl;
 }
+
+void Program::delete_film(string line, int user) {
+    int film_id = NOTSET;
+    vector<string> words = break_to_words(line);
+    for (int i = 0; i < words.size(); i++)
+        if (words[i] == "film_id")
+            film_id = stoi(words[i + 1]);
+    if (film_id == NOTSET) {
+        Error* e = new BadRequest;
+        throw e;
+    }
+    check_film_exists(film_id);
+    users[user]->has_film(film_id);
+    delete_film_from_database(film_id);
+    users[user]->delete_film(film_id);
+}
+

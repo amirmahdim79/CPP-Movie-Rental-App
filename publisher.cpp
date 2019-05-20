@@ -31,3 +31,14 @@ Film* Publisher::get_film(int id) {
             return films[i];
     }
 }
+
+void Publisher::delete_film(int id) {
+    for (int i = 0; i < films.size(); i++) {
+        if (id == films[i]->get_id())
+            films.erase(films.begin() + i);
+    }
+}
+
+void Publisher::show_followers() {
+    //show followers
+}

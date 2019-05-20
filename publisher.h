@@ -13,6 +13,7 @@ public:
     Publisher(string username, string password, string email, int age, int id);
     void add_film(Film* film);
     void has_film(int id);
+    void delete_film(int id);
     Film* get_film(int id);
 };
 

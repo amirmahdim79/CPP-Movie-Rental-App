@@ -14,6 +14,7 @@ protected:
     string password;
     bool publisher;
     vector<Film*> films;
+    vector<User*> followers;
 public:
     int get_id();
     string get_password();
@@ -23,6 +24,8 @@ public:
     virtual void add_film(Film* film) {}
     virtual void has_film(int id) {}
     virtual Film* get_film(int id) {}
+    virtual void delete_film(int id) {}
+    virtual void show_followers() {}
 };
 
 #endif

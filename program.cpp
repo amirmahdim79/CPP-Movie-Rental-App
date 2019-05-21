@@ -476,12 +476,11 @@ void Program::follow(string line, int user) {
     vector<string> words = break_to_words(line);
     for (int i = 0; i < words.size(); i++) {
         if (words[i] == "user_id")
-            user_id == stoi(words[i + 1]);
+            user_id = stoi(words[i + 1]);
     }
     for (int i = 0; i < users.size(); i++) {
-        if (user_id == users[i]->get_id()) {
+        if (user_id == users[i]->get_id())
             follow_user_place = i;
-        }
     }
     if (user_id == NOTSET) {
         Error* e = new BadRequest;
@@ -492,10 +491,14 @@ void Program::follow(string line, int user) {
         throw e;
     }
     users[user]->follow(users[follow_user_place]);
+    users[follow_user_place]->add_to_followers(users[user]);
+
     string type;
     users[user]->is_publisher() ? type = "publisher" : type = "customer";
     string fetched_id = to_string(users[user]->get_id());
     string message = "User " + type + " with id " + fetched_id + " follow you.";
     Notification* notif = new Notification(message);
     users[user_id]->add_to_notifications(notif);
+    
+    std::cout << "OK" << std::endl;
 }

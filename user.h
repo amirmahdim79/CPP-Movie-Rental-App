@@ -36,6 +36,7 @@ public:
     virtual void show_followers() {}
     virtual void show_all_films() {}
     virtual void add_to_notifications(Notification* notif);
+    virtual void add_to_followers(User* user);
 };
 
 #endif

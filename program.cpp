@@ -207,6 +207,10 @@ void Program::do_command(string line, string method, string command) {
             check_access_publisher();
             add_film(line, user);
         }
+        if (command == "followers") {
+            int user = find_user(active_user);
+            follow(line, user);
+        }
     }
     else if (method == "GET") {
         if (command == "followers") {
@@ -464,4 +468,34 @@ void Program::show_published(string line, int user) {
     std::cout << "#. Film Id | Film Name | Film Length | Film price | Rate | Production Year | Film Director" << std::endl;
     for (int i = 0; i < films.size(); i++)
         std::cout << i + 1 << ". " << films[i]->get_id() << " | " << films[i]->get_name() << " | " << films[i]->get_length() << " | " << films[i]->get_price() << " | " << films[i]->get_rate() << " | " << films[i]->get_year() << " | " << films[i]->get_director() << std::endl;
+}
+
+void Program::follow(string line, int user) {
+    int user_id = NOTSET;
+    int follow_user_place = NOTSET;
+    vector<string> words = break_to_words(line);
+    for (int i = 0; i < words.size(); i++) {
+        if (words[i] == "user_id")
+            user_id == stoi(words[i + 1]);
+    }
+    for (int i = 0; i < users.size(); i++) {
+        if (user_id == users[i]->get_id()) {
+            follow_user_place = i;
+        }
+    }
+    if (user_id == NOTSET) {
+        Error* e = new BadRequest;
+        throw e;
+    }
+    if (follow_user_place == NOTSET) {
+        Error* e = new UserNotFound;
+        throw e;
+    }
+    users[user]->follow(users[follow_user_place]);
+    string type;
+    users[user]->is_publisher() ? type = "publisher" : type = "customer";
+    string fetched_id = to_string(users[user]->get_id());
+    string message = "User " + type + " with id " + fetched_id + " follow you.";
+    Notification* notif = new Notification(message);
+    users[user_id]->add_to_notifications(notif);
 }

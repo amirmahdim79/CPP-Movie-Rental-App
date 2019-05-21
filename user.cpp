@@ -18,3 +18,11 @@ bool User::is_publisher() {
     else
         return false;
 }
+
+void User::follow(User* user) {
+    following.push_back(user);
+}
+
+void User::add_to_notifications(Notification* notif) {
+    notifications.push_back(notif);
+}

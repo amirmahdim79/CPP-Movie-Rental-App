@@ -2,6 +2,7 @@
 #define MOVIE_H_
 
 #include <string>
+#include <vector>
 using namespace std;
 
 class Film {
@@ -14,6 +15,8 @@ private:
     string summary;
     string director;
     double rate;
+    //vector<Comment*> comments;
+    vector<int> rates;
 public:
     Film(int year, int length, int price, string name, string summary, string director, int id);
     int get_id();

@@ -9,6 +9,7 @@
 #include "customer.h"
 #include "exceptions.h"
 #include "movie.h"
+#include "notification.h"
 
 using namespace std;
 
@@ -50,6 +51,7 @@ public:
     void edit_film(string line, int user);
     void delete_film(string line, int user);
     void show_published(string line, int user);
+    void follow(string line, int user);
 
     void signup(string line);
     void login(string username, string password);

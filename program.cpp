@@ -320,6 +320,11 @@ void Program::add_film(string line, int user) {
     std::cout << film_id << std::endl;
     all_films.push_back(film);
     users[user]->add_film(film);
+
+    string fetched_id = to_string(users[user]->get_id());
+    string message = "Publisher " + users[user]->get_username() + " with id " + fetched_id + " published film " + name;
+    Notification* notif = new Notification(message);
+    users[user]->send_notification_to_followers(notif);
     std::cout << "OK" << std::endl;
 }
 
@@ -493,12 +498,10 @@ void Program::follow(string line, int user) {
     users[user]->follow(users[follow_user_place]);
     users[follow_user_place]->add_to_followers(users[user]);
 
-    string type;
-    users[user]->is_publisher() ? type = "publisher" : type = "customer";
     string fetched_id = to_string(users[user]->get_id());
-    string message = "User " + type + " with id " + fetched_id + " follow you.";
+    string message = "User " + users[user]->get_username() + " with id " + fetched_id + " follow you.";
     Notification* notif = new Notification(message);
     users[user_id]->add_to_notifications(notif);
-    
+
     std::cout << "OK" << std::endl;
 }

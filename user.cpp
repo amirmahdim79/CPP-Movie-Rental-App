@@ -30,3 +30,9 @@ void User::add_to_followers(User* user) {
 void User::add_to_notifications(Notification* notif) {
     notifications.push_back(notif);
 }
+
+void User::send_notification_to_followers(Notification* notif) {
+    for (int i = 0; i < followers.size(); i++) {
+        followers[i]->add_to_notifications(notif);
+    }
+}

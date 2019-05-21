@@ -10,6 +10,7 @@ class User {
 protected:
     int id;
     int age;
+    int money;
     string username;
     string email;
     string password;
@@ -20,6 +21,7 @@ protected:
     vector<Notification*> notifications;
 public:
     int get_id();
+    int get_money();
     string get_password();
     string get_username();
     void follow(User* user);
@@ -38,6 +40,7 @@ public:
     virtual void add_to_notifications(Notification* notif);
     virtual void add_to_followers(User* user);
     virtual void send_notification_to_followers(Notification* notif);
+    virtual void increase_money(int amount);
 };
 
 #endif

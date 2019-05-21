@@ -211,6 +211,10 @@ void Program::do_command(string line, string method, string command) {
             int user = find_user(active_user);
             follow(line, user);
         }
+        if (command == "money") {
+            int user = find_user(active_user);
+            add_money(line, user);
+        }
     }
     else if (method == "GET") {
         if (command == "followers") {
@@ -503,5 +507,20 @@ void Program::follow(string line, int user) {
     Notification* notif = new Notification(message);
     users[user_id]->add_to_notifications(notif);
 
+    std::cout << "OK" << std::endl;
+}
+
+void Program::add_money(string line, int user) {
+    int amount = NOTSET;
+    vector<string> words = break_to_words(line);
+    for (int i = 0; i < words.size(); i++) {
+        if (words[i] == "amount")
+            amount = stoi(words[i + 1]);
+    }
+    if (amount == NOTSET) {
+        Error* e = new BadRequest;
+        throw e;
+    }
+    users[user]->increase_money(amount);
     std::cout << "OK" << std::endl;
 }

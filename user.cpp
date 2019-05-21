@@ -12,6 +12,10 @@ int User::get_id() {
     return id;
 }
 
+int User::get_money() {
+    return money;
+}
+
 bool User::is_publisher() {
     if (publisher == true)
         return true;
@@ -35,4 +39,8 @@ void User::send_notification_to_followers(Notification* notif) {
     for (int i = 0; i < followers.size(); i++) {
         followers[i]->add_to_notifications(notif);
     }
+}
+
+void User::increase_money(int amount) {
+    money = money + amount;
 }

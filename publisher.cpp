@@ -40,7 +40,31 @@ void Publisher::delete_film(int id) {
 }
 
 void Publisher::show_followers() {
-    //show followers
+    int location_to_delete = 0;
+    vector<User*> temp = followers;
+    int smallest_user = 0;
+    vector<User*> sorted_followers;
+    while(1) {
+        if (temp.size() == 0)
+            break;
+        for (int i = 1; i < temp.size(); i++) {
+            if (i == temp.size() - 1)
+                break;
+            if (temp[smallest_user]->get_id() > temp[i]->get_id()) {
+                location_to_delete = i;
+                smallest_user = i;
+            }
+        }
+        sorted_followers.push_back(temp[smallest_user]);
+        temp.erase(temp.begin() + location_to_delete);
+        location_to_delete = 0;
+        smallest_user = 0;
+    }
+    std::cout << "List of Followers" << std::endl << std::endl;
+    std::cout << "#. User Id | User Username | User Email" << std::endl;
+    for (int i = 0; i < sorted_followers.size(); i++) {
+        std::cout << i + 1 << ". " << sorted_followers[i]->get_id() << " | " << sorted_followers[i]->get_username() << " | " << sorted_followers[i]->get_email() << std::endl;
+    }
 }
 
 void Publisher::show_all_films() {
@@ -55,3 +79,9 @@ vector<Film*> Publisher::get_films() {
 }
 
 int Publisher::get_films_size() {return films.size();}
+
+void Publisher::send_notification_to_followers(Notification* notif) {
+    for (int i = 0; i < followers.size(); i++) {
+        followers[i]->add_to_notifications(notif);
+    }
+}

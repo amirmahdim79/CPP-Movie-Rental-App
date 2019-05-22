@@ -19,6 +19,7 @@ public:
     void show_followers();
     void show_all_films();
     vector<Film*> get_films();
+    void send_notification_to_followers(Notification* notif);
 };
 
 #endif

@@ -219,6 +219,8 @@ void Program::do_command(string line, string method, string command) {
     else if (method == "GET") {
         if (command == "followers") {
             //show followers
+            int user = find_user(active_user);
+            users[user]->show_followers();
         }
         if (command == "published") {
             int user = find_user(active_user);
@@ -321,12 +323,11 @@ void Program::add_film(string line, int user) {
     //
     Film* film = new Film(year, length, price, name, summary, director, film_id);
     increase_film_id();
-    std::cout << film_id << std::endl;
     all_films.push_back(film);
     users[user]->add_film(film);
 
     string fetched_id = to_string(users[user]->get_id());
-    string message = "Publisher " + users[user]->get_username() + " with id " + fetched_id + " published film " + name;
+    string message = "Publisher " + users[user]->get_username() + " with id " + fetched_id + " register new film.";
     Notification* notif = new Notification(message);
     users[user]->send_notification_to_followers(notif);
     std::cout << "OK" << std::endl;
@@ -497,10 +498,6 @@ void Program::follow(string line, int user) {
     }
     if (follow_user_place == NOTSET) {
         Error* e = new UserNotFound;
-        throw e;
-    }
-    if (users[follow_user_place]->is_publisher() == false) {
-        Error* e = new BadRequest;
         throw e;
     }
     users[user]->follow(users[follow_user_place]);

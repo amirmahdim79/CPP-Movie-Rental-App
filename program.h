@@ -15,7 +15,7 @@ using namespace std;
 
 class Program {
 private:
-    int id = 0;
+    int id = 1;
     int film_id = 1;
     int active_user = -1;
     vector<string> methods = {"GET", "PUT", "POST", "DELETE"};

@@ -24,7 +24,8 @@ public:
     int get_money();
     string get_password();
     string get_username();
-    void follow(User* user);
+    string get_email();
+    virtual void follow(User* user);
 
     virtual int get_films_size() {return films.size();}
     virtual Film* get_film(int id) {}
@@ -39,7 +40,7 @@ public:
     virtual void show_all_films() {}
     virtual void add_to_notifications(Notification* notif);
     virtual void add_to_followers(User* user);
-    virtual void send_notification_to_followers(Notification* notif);
+    virtual void send_notification_to_followers(Notification* notif) {}
     virtual void increase_money(int amount);
 };
 

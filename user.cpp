@@ -1,4 +1,5 @@
 #include "user.h"
+#include <iostream>
 
 string User::get_password() {
     return password;
@@ -6,6 +7,10 @@ string User::get_password() {
 
 string User::get_username() {
     return username;
+}
+
+string User::get_email() {
+    return email;
 }
 
 int User::get_id() {
@@ -33,12 +38,6 @@ void User::add_to_followers(User* user) {
 
 void User::add_to_notifications(Notification* notif) {
     notifications.push_back(notif);
-}
-
-void User::send_notification_to_followers(Notification* notif) {
-    for (int i = 0; i < followers.size(); i++) {
-        followers[i]->add_to_notifications(notif);
-    }
 }
 
 void User::increase_money(int amount) {

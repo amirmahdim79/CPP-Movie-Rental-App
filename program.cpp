@@ -499,6 +499,10 @@ void Program::follow(string line, int user) {
         Error* e = new UserNotFound;
         throw e;
     }
+    if (users[follow_user_place]->is_publisher() == false) {
+        Error* e = new BadRequest;
+        throw e;
+    }
     users[user]->follow(users[follow_user_place]);
     users[follow_user_place]->add_to_followers(users[user]);
 

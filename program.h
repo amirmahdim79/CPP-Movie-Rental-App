@@ -53,6 +53,7 @@ public:
     void show_published(string line, int user);
     void follow(string line, int user);
     void add_money(string line, int user);
+    void search_films(string line, int user);
 
     void signup(string line);
     void login(string username, string password);

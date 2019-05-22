@@ -78,7 +78,9 @@ vector<Film*> Publisher::get_films() {
     return films;
 }
 
-int Publisher::get_films_size() {return films.size();}
+int Publisher::get_films_size() {
+    return films.size();
+}
 
 void Publisher::send_notification_to_followers(Notification* notif) {
     for (int i = 0; i < followers.size(); i++) {

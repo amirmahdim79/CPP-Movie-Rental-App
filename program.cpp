@@ -218,8 +218,8 @@ void Program::do_command(string line, string method, string command) {
     }
     else if (method == "GET") {
         if (command == "followers") {
-            //show followers
             int user = find_user(active_user);
+            check_access_publisher();
             users[user]->show_followers();
         }
         if (command == "published") {
@@ -227,6 +227,10 @@ void Program::do_command(string line, string method, string command) {
             check_access_publisher();
             //
             show_published(line, user);
+        }
+        if (command == "films") {
+            int user = find_user(active_user);
+            search_films(line, user);
         }
     }
     else if (method == "PUT") {
@@ -519,9 +523,92 @@ void Program::add_money(string line, int user) {
             amount = stoi(words[i + 1]);
     }
     if (amount == NOTSET) {
-        Error* e = new BadRequest;
-        throw e;
+        if (users[user]->is_publisher() == false) {
+            Error* e = new BadRequest;
+            throw e;
+        }
+        //get money from server cause your probably a publisher
     }
-    users[user]->increase_money(amount);
-    std::cout << "OK" << std::endl;
+    else {
+        users[user]->increase_money(amount);
+        std::cout << "OK" << std::endl;
+    }
+}
+
+void Program::search_films(string line, int user) {
+    int min_year = NOTSET;
+    int max_year = NOTSET;
+    int price = NOTSET;
+    double min_rate = NOTSET;
+    string name = EMPTYSTRING;
+    string director = EMPTYSTRING;
+    vector<string> words = break_to_words(line);
+    for (int i = 0; i < words.size(); i++) {
+        if (words[i] == "name")
+            name = words[i + 1];
+        if (words[i] == "director")
+            director = words[i + 1];
+        if (words[i] == "min_year")
+            min_year = stoi(words[i + 1]);
+        if (words[i] == "max_year")
+            max_year = stoi(words[i + 1]);
+        if (words[i] == "price")
+            price = stoi(words[i + 1]);
+        if (words[i] == "min_rate")
+            min_rate == stod(words[i + 1]);
+    }
+    vector<Film*> films = all_films;
+    if (name != EMPTYSTRING) {
+       for (int i = 0; i < films.size(); i++) {
+            if (films[i]->get_name() != name) {
+                films.erase(films.begin() + i);
+                i--;
+            }
+        } 
+    }
+    if (director != EMPTYSTRING) {
+        for (int i = 0; i < films.size(); i++) {
+            if (films[i]->get_director() != director) {
+                films.erase(films.begin() + i);
+                i--;
+            }
+        }
+    }
+    if (min_rate != NOTSET) {
+        for (int i = 0; i < films.size(); i++) {
+            if (films[i]->get_rate() < min_rate) {
+                films.erase(films.begin() + i);
+                i--;
+            }
+        }
+    }
+    if (price != NOTSET) {
+        for (int i = 0; i < films.size(); i++) {
+            if (films[i]->get_price() != price) {
+                films.erase(films.begin() + i);
+                i--;
+            }
+        }
+    }
+    if (max_year != NOTSET) {
+        for (int i = 0; i < films.size(); i++) {
+            if (films[i]->get_year() > max_year) {
+                films.erase(films.begin() + i);
+                i--;
+            }
+        }
+    }
+    if (min_year != NOTSET) {
+        for (int i = 0; i < films.size(); i++) {
+            if (films[i]->get_year() < min_year) {
+                films.erase(films.begin() + i);
+                i--;
+            }
+        }
+    }
+
+    std::cout << "#. Film Id | Film Name | Film Length | Film price | Rate | Production Year | Film Director" << std::endl;
+    for (int i = 0; i < films.size(); i++)
+        std::cout << i + 1 << ". " << films[i]->get_id() << " | " << films[i]->get_name() << " | " << films[i]->get_length() << " | " << films[i]->get_price() << " | " << films[i]->get_rate() << " | " << films[i]->get_year() << " | " << films[i]->get_director() << std::endl;
+
 }

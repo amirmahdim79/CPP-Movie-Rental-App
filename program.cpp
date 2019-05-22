@@ -189,6 +189,10 @@ void Program::delete_film_from_database(int id) {
     all_films.erase(all_films.begin() + selected_element);
 }
 
+void Program::add_money_to_server(Money* money) {
+    money_server.push_back(money);
+}
+
 void Program::do_command(string line, string method, string command) {
     if (command == "") {
         Error* e = new BadRequest;
@@ -214,6 +218,10 @@ void Program::do_command(string line, string method, string command) {
         if (command == "money") {
             int user = find_user(active_user);
             add_money(line, user);
+        }
+        if (command == "buy") {
+            int user = find_user(active_user);
+            buy_film(line, user);
         }
     }
     else if (method == "GET") {
@@ -325,7 +333,7 @@ void Program::add_film(string line, int user) {
         throw e;
     }
     //
-    Film* film = new Film(year, length, price, name, summary, director, film_id);
+    Film* film = new Film(year, length, price, name, summary, director, film_id, users[user]->get_id());
     increase_film_id();
     all_films.push_back(film);
     users[user]->add_film(film);
@@ -536,6 +544,7 @@ void Program::add_money(string line, int user) {
 }
 
 void Program::search_films(string line, int user) {
+    int film_id = NOTSET;
     int min_year = NOTSET;
     int max_year = NOTSET;
     int price = NOTSET;
@@ -544,6 +553,8 @@ void Program::search_films(string line, int user) {
     string director = EMPTYSTRING;
     vector<string> words = break_to_words(line);
     for (int i = 0; i < words.size(); i++) {
+        if (words[i] == "film_id")
+            film_id = stoi(words[i + 1]);
         if (words[i] == "name")
             name = words[i + 1];
         if (words[i] == "director")
@@ -558,6 +569,10 @@ void Program::search_films(string line, int user) {
             min_rate == stod(words[i + 1]);
     }
     vector<Film*> films = all_films;
+    if (film_id != NOTSET) {
+        //show film details comment and recomend
+        return;
+    }
     if (name != EMPTYSTRING) {
        for (int i = 0; i < films.size(); i++) {
             if (films[i]->get_name() != name) {
@@ -611,4 +626,27 @@ void Program::search_films(string line, int user) {
     for (int i = 0; i < films.size(); i++)
         std::cout << i + 1 << ". " << films[i]->get_id() << " | " << films[i]->get_name() << " | " << films[i]->get_length() << " | " << films[i]->get_price() << " | " << films[i]->get_rate() << " | " << films[i]->get_year() << " | " << films[i]->get_director() << std::endl;
 
+}
+
+void Program::buy_film(string line, int user) {
+    int film_id = NOTSET;
+    vector<string> words = break_to_words(line);
+    for (int i = 0; i < words.size(); i++) {
+        if (words[i] == "film_id")
+            film_id = stoi(words[i + 1]);
+    }
+    if (film_id == NOTSET) {
+        Error* e = new BadRequest;
+        throw e;
+    }
+    //check if film exists
+    Film* film;
+    film = users[user]->get_film(film_id);
+    users[user]->decrese_money(film->get_price());
+    users[user]->buy_film(film);
+    Money* money = new Money(film->get_price(), film->get_publisher_id(), film->get_name());
+    add_money_to_server(money);
+    string message = "User " + users[user]->get_username() + " with id " + users[user]->get_id() + " buy your film " + film->get_name() + " with id " + film->get_id();
+    users[film->get_publisher_id()]->add_to_notifications(message);
+    std::cout << "OK" << std::endl;
 }

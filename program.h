@@ -10,6 +10,7 @@
 #include "exceptions.h"
 #include "movie.h"
 #include "notification.h"
+#include "money.h"
 
 using namespace std;
 
@@ -25,6 +26,7 @@ private:
     vector<string> usernames;
     vector<User*> users;
     vector<Film*> all_films;
+    vector<Money*> money_server;
 public:
     void run();
 
@@ -37,6 +39,7 @@ public:
     void read_method_command(string line, string command);
     void read_username_password(string line, string &username, string &password);
     void delete_film_from_database(int id);
+    void add_money_to_server(Money* money);
 
     void check_method(string method);
     void check_command(string command);
@@ -54,6 +57,7 @@ public:
     void follow(string line, int user);
     void add_money(string line, int user);
     void search_films(string line, int user);
+    void buy_film(string line, int user);
 
     void signup(string line);
     void login(string username, string password);

@@ -43,3 +43,11 @@ void User::add_to_notifications(Notification* notif) {
 void User::increase_money(int amount) {
     money = money + amount;
 }
+
+void User::decrese_money(int amount) {
+    this->money = this->money - amount;
+}
+
+void User::buy_film(Film* film) {
+    bought_films.push_back(film);
+}

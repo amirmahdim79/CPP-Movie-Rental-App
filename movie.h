@@ -7,6 +7,7 @@ using namespace std;
 
 class Film {
 private:
+    int publisher_id;
     int id;
     int year;
     int length;
@@ -18,8 +19,9 @@ private:
     //vector<Comment*> comments;
     vector<int> rates;
 public:
-    Film(int year, int length, int price, string name, string summary, string director, int id);
+    Film(int year, int length, int price, string name, string summary, string director, int id, int publisher_id);
     int get_id();
+    int get_publisher_id();
     int get_year() {return year;}
     int get_length() {return length;}
     int get_price() {return price;}

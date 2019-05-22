@@ -16,6 +16,7 @@ protected:
     string password;
     bool publisher;
     vector<Film*> films;
+    vector<Film*> bought_films;
     vector<User*> followers;
     vector<User*> following;
     vector<Notification*> notifications;
@@ -26,6 +27,7 @@ public:
     string get_username();
     string get_email();
     virtual void follow(User* user);
+    virtual void buy_film(Film* film);
 
     virtual int get_films_size() {return films.size();}
     virtual Film* get_film(int id) {}
@@ -42,6 +44,8 @@ public:
     virtual void add_to_followers(User* user);
     virtual void send_notification_to_followers(Notification* notif) {}
     virtual void increase_money(int amount);
+    virtual void decrese_money(int amount);
+    //virtual void
 };
 
 #endif

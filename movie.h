@@ -3,6 +3,7 @@
 
 #include <string>
 #include <vector>
+#include "rate.h"
 using namespace std;
 
 class Film {
@@ -17,7 +18,7 @@ private:
     string director;
     double rate;
     //vector<Comment*> comments;
-    vector<int> rates;
+    vector<Rate*> ratings;
 public:
     Film(int year, int length, int price, string name, string summary, string director, int id, int publisher_id);
     int get_id();
@@ -35,6 +36,7 @@ public:
     void set_name(string name) {this->name = name;}
     void set_summary(string summary) {this->summary = summary;}
     void set_director(string director) {this->director = director;}
+    void set_ratings(Rate* rate);
 };
 
 #endif

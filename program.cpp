@@ -10,6 +10,14 @@
 #define EMPTYSTRING ""
 #define NOTSET -1
 
+Film* Program::get_film(int film_id) {
+    for (int i = 0; i < all_films.size(); i++) {
+        if (film_id == all_films[i]->get_id()) {
+            return all_films[i];
+        }
+    }
+}
+
 void Program::increase_id() {
     this->id++;
 }
@@ -222,6 +230,10 @@ void Program::do_command(string line, string method, string command) {
         if (command == "buy") {
             int user = find_user(active_user);
             buy_film(line, user);
+        }
+        if (command == "rate") {
+            int user = find_user(active_user);
+            rate_film(line, user);
         }
     }
     else if (method == "GET") {
@@ -641,12 +653,35 @@ void Program::buy_film(string line, int user) {
     }
     //check if film exists
     Film* film;
-    film = users[user]->get_film(film_id);
+    film = this->get_film(film_id);
     users[user]->decrese_money(film->get_price());
     users[user]->buy_film(film);
     Money* money = new Money(film->get_price(), film->get_publisher_id(), film->get_name());
     add_money_to_server(money);
-    string message = "User " + users[user]->get_username() + " with id " + users[user]->get_id() + " buy your film " + film->get_name() + " with id " + film->get_id();
-    users[film->get_publisher_id()]->add_to_notifications(message);
+    string message = "User " + users[user]->get_username() + " with id " + to_string(users[user]->get_id()) + " buy your film " + film->get_name() + " with id " + to_string(film->get_id());
+    Notification* notif = new Notification(message);
+    users[film->get_publisher_id()]->add_to_notifications(notif);
+    std::cout << "OK" << std::endl;
+}
+
+void Program::rate_film(string line, int user) {
+    int film_id = NOTSET;
+    int score = NOTSET;
+    vector<string> words = break_to_words(line);
+    for (int i = 0; i < words.size(); i++) {
+        if (words[i] == "film_id")
+            film_id = stoi(words[i + 1]);
+        if (words[i] == "score")
+            score = stoi(words[i + 1]);
+    }
+    Film* film;
+    film = this->get_film(film_id);
+    //check if rate is 1 to 10
+    //check if rate is not duplicate
+    Rate* rate = new Rate(score, users[user]->get_id(), film_id);
+    film->set_ratings(rate);
+    string message = "User " + users[user]->get_username() + " with id " + to_string(users[user]->get_id()) + " rate your film " + film->get_name() + " with id " + to_string(film->get_id());
+    Notification* notif = new Notification(message);
+    users[film->get_publisher_id()]->add_to_notifications(notif);
     std::cout << "OK" << std::endl;
 }

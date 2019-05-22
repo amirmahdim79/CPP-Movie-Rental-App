@@ -11,6 +11,7 @@
 #include "movie.h"
 #include "notification.h"
 #include "money.h"
+#include "rate.h"
 
 using namespace std;
 
@@ -29,6 +30,8 @@ private:
     vector<Money*> money_server;
 public:
     void run();
+
+    Film* get_film(int film_id);
 
     int character_location(string line, char character);
     int find_user(int id);
@@ -58,6 +61,7 @@ public:
     void add_money(string line, int user);
     void search_films(string line, int user);
     void buy_film(string line, int user);
+    void rate_film(string line, int user);
 
     void signup(string line);
     void login(string username, string password);

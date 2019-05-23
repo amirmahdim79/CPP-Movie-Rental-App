@@ -43,6 +43,7 @@ public:
     void set_comment(Comment* comment);
     void increase_comment_id();
     Comment* get_comment(int comment_id);
+    void delete_comment(int comment_id);
 };
 
 #endif

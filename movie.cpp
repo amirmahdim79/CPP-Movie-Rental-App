@@ -39,3 +39,12 @@ Comment* Film::get_comment(int comment_id) {
         }
     }
 }
+
+void Film::delete_comment(int comment_id) {
+    for (int i = 0; i < comments.size(); i++) {
+        if (comment_id == comments[i]->get_id()) {
+            comments.erase(comments.begin() + i);
+            return;
+        }
+    }
+}

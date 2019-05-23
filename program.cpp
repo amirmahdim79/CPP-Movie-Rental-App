@@ -287,6 +287,11 @@ void Program::do_command(string line, string method, string command) {
             check_access_publisher();
             delete_film(line, user);
         }
+        if (command == "comments") {
+            int user = find_user(active_user);
+            check_access_publisher();   
+            delete_comment(line, user);
+        }
     }
 }
 
@@ -886,5 +891,26 @@ void Program::add_reply(string line, int user) {
     string message = "Publisher " + users[user]->get_username() + " with id " + to_string(users[user]->get_id()) + " reply to your comment";
     Notification* notif = new Notification(message);
     users[comment->get_user_id() - 1]->add_to_notifications(notif);
+    std::cout << "OK" << std::endl;
+}
+
+void Program::delete_comment(string line, int user) {
+    int film_id = NOTSET;
+    int comment_id = NOTSET;
+    vector<string> words = break_to_words(line);
+    for (int i = 0; i < words.size(); i++) {
+        if (words[i] == "film_id")
+            film_id = stoi(words[i + 1]);
+        if(words[i] == "comment_id")
+            comment_id = stoi(words[i + 1]);
+    }
+    if (film_id == NOTSET || comment_id == NOTSET) {
+        Error* e = new BadRequest;
+        throw e;
+    }
+    Film* film;
+    users[user]->has_film(film_id);
+    film = users[user]->get_film(film_id);
+    film->delete_comment(comment_id);
     std::cout << "OK" << std::endl;
 }

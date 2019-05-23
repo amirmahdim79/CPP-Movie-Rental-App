@@ -260,6 +260,10 @@ void Program::do_command(string line, string method, string command) {
             int user = find_user(active_user);
             show_purchased(line, user);
         }
+        if (command == "notifications") {
+            int user = find_user(active_user);
+            show_notifications(line, user);
+        }
     }
     else if (method == "PUT") {
         if (command == "films") {
@@ -538,7 +542,7 @@ void Program::follow(string line, int user) {
     string fetched_id = to_string(users[user]->get_id());
     string message = "User " + users[user]->get_username() + " with id " + fetched_id + " follow you.";
     Notification* notif = new Notification(message);
-    users[user_id]->add_to_notifications(notif);
+    users[user_id - 1]->add_to_notifications(notif);
 
     std::cout << "OK" << std::endl;
 }
@@ -660,6 +664,7 @@ void Program::buy_film(string line, int user) {
         throw e;
     }
     //check if film exists
+    //check if film is duplicate
     Film* film;
     film = this->get_film(film_id);
     users[user]->decrese_money(film->get_price());
@@ -668,7 +673,7 @@ void Program::buy_film(string line, int user) {
     add_money_to_server(money);
     string message = "User " + users[user]->get_username() + " with id " + to_string(users[user]->get_id()) + " buy your film " + film->get_name() + " with id " + to_string(film->get_id());
     Notification* notif = new Notification(message);
-    users[film->get_publisher_id()]->add_to_notifications(notif);
+    users[film->get_publisher_id() - 1]->add_to_notifications(notif);
     std::cout << "OK" << std::endl;
 }
 
@@ -690,7 +695,7 @@ void Program::rate_film(string line, int user) {
     film->set_ratings(rate);
     string message = "User " + users[user]->get_username() + " with id " + to_string(users[user]->get_id()) + " rate your film " + film->get_name() + " with id " + to_string(film->get_id());
     Notification* notif = new Notification(message);
-    users[film->get_publisher_id()]->add_to_notifications(notif);
+    users[film->get_publisher_id() - 1]->add_to_notifications(notif);
     std::cout << "OK" << std::endl;
 }
 
@@ -716,7 +721,7 @@ void Program::comment_on_film(string line, int user) {
     film->increase_comment_id();
     string message = "User " + users[user]->get_username() + " with id " + to_string(users[user]->get_id()) + " comment on your film " + film->get_name() + " with id " + to_string(film->get_id());
     Notification* notif = new Notification(message);
-    users[film->get_publisher_id()]->add_to_notifications(notif);
+    users[film->get_publisher_id() - 1]->add_to_notifications(notif);
     std::cout << "OK" << std::endl;
 }
 
@@ -804,4 +809,10 @@ void Program::show_purchased(string line, int user) {
     for (int i = 0; i < sorted_films.size(); i++)
         std::cout << i + 1 << ". " << sorted_films[i]->get_id() << " | " << sorted_films[i]->get_name() << " | " << sorted_films[i]->get_length() << " | " << sorted_films[i]->get_price() << " | " << sorted_films[i]->get_rate() << " | " << sorted_films[i]->get_year() << " | " << sorted_films[i]->get_director() << std::endl;
     
+}
+
+void Program::show_notifications(string line, int user) {
+    users[user]->show_notifications();
+    users[user]->add_to_read_notifications();
+    users[user]->delete_notifications();
 }

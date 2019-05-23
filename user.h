@@ -20,6 +20,7 @@ protected:
     vector<User*> followers;
     vector<User*> following;
     vector<Notification*> notifications;
+    vector<Notification*> read_notifications;
 public:
     int get_id();
     int get_money();
@@ -41,7 +42,10 @@ public:
     virtual void delete_film(int id) {}
     virtual void show_followers() {}
     virtual void show_all_films() {}
+    virtual void show_notifications();
     virtual void add_to_notifications(Notification* notif);
+    virtual void add_to_read_notifications();
+    virtual void delete_notifications();
     virtual void add_to_followers(User* user);
     virtual void send_notification_to_followers(Notification* notif) {}
     virtual void increase_money(int amount);

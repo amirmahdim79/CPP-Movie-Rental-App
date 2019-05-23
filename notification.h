@@ -8,7 +8,7 @@ private:
     std::string message;
 public:
     Notification(std::string message);
-    void show_message();
+    std::string show_message();
 };
 
 #endif

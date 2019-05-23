@@ -40,6 +40,12 @@ void User::add_to_notifications(Notification* notif) {
     notifications.push_back(notif);
 }
 
+void User::add_to_read_notifications() {
+    for (int i = 0; i < notifications.size(); i++) {
+        read_notifications.push_back(notifications[i]);
+    }
+}
+
 void User::increase_money(int amount) {
     money = money + amount;
 }
@@ -54,4 +60,18 @@ void User::buy_film(Film* film) {
 
 vector<Film*> User::get_bought_films() {
     return bought_films;
+}
+
+void User::delete_notifications() {
+    notifications.clear();
+}
+
+void User::show_notifications() {
+    std::cout << "#. Notification Message" << std::endl;
+    int last_element = notifications.size() - 1;
+    int index = 1;
+    for (int i = last_element; i >= 0; i--) {
+        std::cout << index << ". " << notifications[i]->show_message() << std::endl;
+        index++;
+    }
 }

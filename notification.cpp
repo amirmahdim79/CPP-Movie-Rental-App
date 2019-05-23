@@ -6,6 +6,6 @@ Notification::Notification(std::string message) {
     this->message = message;
 }
 
-void Notification::show_message() {
-    std::cout << message << std::endl;
+std::string Notification::show_message() {
+    return message;
 }

@@ -31,3 +31,11 @@ void Film::increase_comment_id() {
 void Film::set_comment(Comment* comment) {
     comments.push_back(comment);
 }
+
+Comment* Film::get_comment(int comment_id) {
+    for (int i = 0; i < comments.size(); i++) {
+        if (comment_id == comments[i]->get_id()) {
+            return comments[i];
+        }
+    }
+}

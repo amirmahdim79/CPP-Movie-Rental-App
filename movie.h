@@ -42,6 +42,7 @@ public:
     void set_ratings(Rate* rate);
     void set_comment(Comment* comment);
     void increase_comment_id();
+    Comment* get_comment(int comment_id);
 };
 
 #endif

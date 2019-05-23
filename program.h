@@ -13,6 +13,7 @@
 #include "money.h"
 #include "rate.h"
 #include "comment.h"
+#include "reply.h"
 
 using namespace std;
 
@@ -23,7 +24,7 @@ private:
     int active_user = -1;
     vector<string> methods = {"GET", "PUT", "POST", "DELETE"};
     vector<string> commands = {"signup", "login", "films", "followers", "money", "published",
-                                "replise", "comments", "followers", "buy", "rate", "purchased",
+                                "replies", "comments", "followers", "buy", "rate", "purchased",
                                 "notifications", "notificationsread", ""};
     vector<string> usernames;
     vector<User*> users;
@@ -67,6 +68,10 @@ public:
     void show_purchased(string line, int user);
     void show_notifications(string line, int user);
     void show_read_notifications(string line, int user);
+    void film_details(int film_id);
+    void show_comments_and_replies(int film_id);
+    void add_reply(string line, int user);
+
 
 
     void signup(string line);

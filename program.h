@@ -30,6 +30,8 @@ private:
     vector<User*> users;
     vector<Film*> all_films;
     vector<Money*> money_server;
+    vector<Money*> server_earnings;
+    int all_money = 0;
 public:
     void run();
 

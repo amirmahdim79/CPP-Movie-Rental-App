@@ -573,7 +573,58 @@ void Program::add_money(string line, int user) {
             Error* e = new BadRequest;
             throw e;
         }
-        //get money from server cause your probably a publisher
+        else {
+            vector<Film*> films;
+            films = users[user]->get_films();
+            vector<Money*> earnings;
+            int earned_amount;
+            int server_earned;
+            for (int i = 0; i < money_server.size(); i++) {
+                if (money_server[i]->active == 0) {
+                    continue;
+                }
+                if (users[user]->get_id() == money_server[i]->publisher_id) {
+                    earnings.push_back(money_server[i]);
+                }
+            }
+            for (int i = 0; i < earnings.size(); i++) {
+                for (int j = 0; j < films.size(); j++) {
+                    if (earnings[i]->get_film_id() == films[j]->get_id()) {
+                        double rate = films[j]->get_rate();
+                        int money = earnings[i]->get_amount();
+                        if (rate < 5) {
+                            double persend = 80 / 100;
+                            earned_amount = money * persend;
+                            server_earned = money - earned_amount;
+                            server_earnings.push_back(earnings[i]);
+                            earnings[i]->active = 0;
+                            users[user]->increase_money(earned_amount);
+                            all_money = all_money + server_earned;
+                        }
+                        if (rate >= 5 && rate < 8) {
+                            double persend = 90 / 100;
+                            earned_amount = money * persend;
+                            server_earned = money - earned_amount;
+                            server_earnings.push_back(earnings[i]);
+                            earnings[i]->active = 0;
+                            users[user]->increase_money(earned_amount);
+                            all_money = all_money + server_earned;
+                        }
+                        if (rate >= 8) {
+                            double persend = 95 / 100;
+                            earned_amount = money * persend;
+                            server_earned = money - earned_amount;
+                            server_earnings.push_back(earnings[i]);
+                            earnings[i]->active = 0;
+                            users[user]->increase_money(earned_amount);
+                            all_money = all_money + server_earned;
+                        }
+                    }
+                }
+            }
+        }
+        std::cout << "OK" << std::endl;
+        return;
     }
     else {
         users[user]->increase_money(amount);
@@ -685,7 +736,7 @@ void Program::buy_film(string line, int user) {
     film = this->get_film(film_id);
     users[user]->decrese_money(film->get_price());
     users[user]->buy_film(film);
-    Money* money = new Money(film->get_price(), film->get_publisher_id(), film->get_name());
+    Money* money = new Money(film->get_price(), film->get_publisher_id(), film->get_id());
     add_money_to_server(money);
     string message = "User " + users[user]->get_username() + " with id " + to_string(users[user]->get_id()) + " buy your film " + film->get_name() + " with id " + to_string(film->get_id());
     Notification* notif = new Notification(message);

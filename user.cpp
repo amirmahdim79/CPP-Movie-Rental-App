@@ -75,3 +75,15 @@ void User::show_notifications() {
         index++;
     }
 }
+
+void User::show_read_notifications(int limit) {
+    std::cout << "#. Notification Message" << std::endl;
+    int last_element = read_notifications.size() - 1;
+    int index = 1;
+    for (int i = last_element; i >= 0; i--) {
+        if (index == limit + 1)
+            break;
+        std::cout << index << ". " << read_notifications[i]->show_message() << std::endl;
+        index++;
+    }
+}

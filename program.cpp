@@ -264,6 +264,10 @@ void Program::do_command(string line, string method, string command) {
             int user = find_user(active_user);
             show_notifications(line, user);
         }
+        if (command == "notificationsread") {
+            int user = find_user(active_user);
+            show_read_notifications(line, user);
+        }
     }
     else if (method == "PUT") {
         if (command == "films") {
@@ -815,4 +819,18 @@ void Program::show_notifications(string line, int user) {
     users[user]->show_notifications();
     users[user]->add_to_read_notifications();
     users[user]->delete_notifications();
+}
+
+void Program::show_read_notifications(string line, int user) {
+    int limit = NOTSET;
+    vector<string> words = break_to_words(line);
+    for (int i = 0; i < words.size(); i++) {
+        if (words[i] == "limit")
+            limit = stoi(words[i + 1]);
+    }
+    if (limit == NOTSET) {
+        Error* e = new BadRequest;
+        throw e;
+    }
+    users[user]->show_read_notifications(limit);
 }

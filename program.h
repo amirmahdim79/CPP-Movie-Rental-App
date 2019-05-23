@@ -66,6 +66,8 @@ public:
     void comment_on_film(string line, int user);
     void show_purchased(string line, int user);
     void show_notifications(string line, int user);
+    void show_read_notifications(string line, int user);
+
 
     void signup(string line);
     void login(string username, string password);

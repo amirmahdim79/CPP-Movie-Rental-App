@@ -45,6 +45,7 @@ public:
     virtual void show_notifications();
     virtual void add_to_notifications(Notification* notif);
     virtual void add_to_read_notifications();
+    virtual void show_read_notifications(int limit);
     virtual void delete_notifications();
     virtual void add_to_followers(User* user);
     virtual void send_notification_to_followers(Notification* notif) {}

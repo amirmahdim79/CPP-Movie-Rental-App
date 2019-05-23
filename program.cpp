@@ -882,7 +882,21 @@ void Program::show_recommendation_films(int film_id) {
     std::cout << "#. Film Id | Film Name | Film Length | Film Director" << std::endl;
     Film* film;
     film = this->get_film(film_id);
-    
+    vector<Film*> films = all_films;
+    vector<Film*> recommended_films;
+    for (int i = 0; i < 4; i++) {
+        int max = 0;
+        for (int j = 0; j < films.size(); j++) {
+            if (films[max]->get_rate() < films[j]->get_rate())
+                max = j;
+        }
+        recommended_films.push_back(films[max]);
+        films.erase(films.begin() + max);
+        max = 0;
+    }
+    for (int i = 0; i < films.size(); i++) {
+        std::cout << i + 1 << ". " << films[i]->get_id() << " | " << films[i]->get_name() << " | " << films[i]->get_length() << " | " << films[i]->get_director() << std::endl;
+    }
 }
 
 void Program::add_reply(string line, int user) {

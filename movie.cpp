@@ -23,3 +23,11 @@ int Film::get_publisher_id() {
 void Film::set_ratings(Rate* rate) {
     ratings.push_back(rate);
 }
+
+void Film::increase_comment_id() {
+    this->comment_id++;
+}
+
+void Film::set_comment(Comment* comment) {
+    comments.push_back(comment);
+}

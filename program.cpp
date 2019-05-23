@@ -235,6 +235,10 @@ void Program::do_command(string line, string method, string command) {
             int user = find_user(active_user);
             rate_film(line, user);
         }
+        if (command == "comments") {
+            int user = find_user(active_user);
+            comment_on_film(line, user);
+        }
     }
     else if (method == "GET") {
         if (command == "followers") {
@@ -681,6 +685,32 @@ void Program::rate_film(string line, int user) {
     Rate* rate = new Rate(score, users[user]->get_id(), film_id);
     film->set_ratings(rate);
     string message = "User " + users[user]->get_username() + " with id " + to_string(users[user]->get_id()) + " rate your film " + film->get_name() + " with id " + to_string(film->get_id());
+    Notification* notif = new Notification(message);
+    users[film->get_publisher_id()]->add_to_notifications(notif);
+    std::cout << "OK" << std::endl;
+}
+
+void Program::comment_on_film(string line, int user) {
+    int film_id = NOTSET;
+    std::string content = EMPTYSTRING;
+    vector<string> words = break_to_words(line);
+    for (int i = 0; i < words.size(); i++) {
+        if (words[i] == "film_id")
+            film_id = stoi(words[i + 1]);
+        if (words[i] == "content")
+            content = words[i + 1];
+    }
+    if (film_id == NOTSET || content == EMPTYSTRING) {
+        Error* e = new BadRequest;
+        throw e;
+    }
+    //check film exists
+    Film* film;
+    film = get_film(film_id);
+    Comment* comment = new Comment(film->get_comment_id(), users[user]->get_id(), film->get_id(), content);
+    film->set_comment(comment);
+    film->increase_comment_id();
+    string message = "User " + users[user]->get_username() + " with id " + to_string(users[user]->get_id()) + " comment on your film " + film->get_name() + " with id " + to_string(film->get_id());
     Notification* notif = new Notification(message);
     users[film->get_publisher_id()]->add_to_notifications(notif);
     std::cout << "OK" << std::endl;

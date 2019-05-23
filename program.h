@@ -12,6 +12,7 @@
 #include "notification.h"
 #include "money.h"
 #include "rate.h"
+#include "comment.h"
 
 using namespace std;
 
@@ -62,6 +63,7 @@ public:
     void search_films(string line, int user);
     void buy_film(string line, int user);
     void rate_film(string line, int user);
+    void comment_on_film(string line, int user);
 
     void signup(string line);
     void login(string username, string password);

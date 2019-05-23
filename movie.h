@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include "rate.h"
+#include "comment.h"
 using namespace std;
 
 class Film {
@@ -13,11 +14,12 @@ private:
     int year;
     int length;
     int price;
+    int comment_id = 1;
     string name;
     string summary;
     string director;
     double rate;
-    //vector<Comment*> comments;
+    vector<Comment*> comments;
     vector<Rate*> ratings;
 public:
     Film(int year, int length, int price, string name, string summary, string director, int id, int publisher_id);
@@ -27,6 +29,7 @@ public:
     int get_length() {return length;}
     int get_price() {return price;}
     int get_rate() {return rate;}
+    int get_comment_id() {return comment_id;}
     string get_name() {return name;}
     string get_summary() {return summary;}
     string get_director() {return director;}
@@ -37,6 +40,8 @@ public:
     void set_summary(string summary) {this->summary = summary;}
     void set_director(string director) {this->director = director;}
     void set_ratings(Rate* rate);
+    void set_comment(Comment* comment);
+    void increase_comment_id();
 };
 
 #endif

@@ -610,6 +610,7 @@ void Program::search_films(string line, int user) {
     if (film_id != NOTSET) {
         film_details(film_id);
         show_comments_and_replies(film_id);
+        show_recommendation_films(film_id);
         return;
     }
     if (name != EMPTYSTRING) {
@@ -862,6 +863,26 @@ void Program::film_details(int film_id) {
 void Program::show_comments_and_replies(int film_id) {
     Film* film;
     film = this->get_film(film_id);
+    vector<Comment*> comments;
+    comments = film->get_comments();
+    std::cout << "Comments" << std::endl; 
+    for (int i = 0; i < comments.size(); i++) {
+        vector<Reply*> replies;
+        replies = comments[i]->get_replies();
+        std::cout << comments[i]->get_id() << ". " << comments[i]->get_content() << std::endl;
+        for (int j = 0; j < replies.size(); j++) {
+            std::cout << comments[i]->get_id() << "." << j + 1 << ". " << replies[j]->get_content() << std::endl;
+        }
+    }
+    std::cout << std::endl;
+}
+
+void Program::show_recommendation_films(int film_id) {
+    std::cout << "Recommendation Film" << std::endl;
+    std::cout << "#. Film Id | Film Name | Film Length | Film Director" << std::endl;
+    Film* film;
+    film = this->get_film(film_id);
+    
 }
 
 void Program::add_reply(string line, int user) {

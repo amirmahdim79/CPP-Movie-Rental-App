@@ -28,8 +28,9 @@ public:
     int get_year() {return year;}
     int get_length() {return length;}
     int get_price() {return price;}
-    int get_rate() {return rate;}
+    double get_rate();
     int get_comment_id() {return comment_id;}
+    int get_comments_number() {return comments.size();}
     string get_name() {return name;}
     string get_summary() {return summary;}
     string get_director() {return director;}
@@ -43,6 +44,7 @@ public:
     void set_comment(Comment* comment);
     void increase_comment_id();
     Comment* get_comment(int comment_id);
+    vector<Comment*> get_comments();
     void delete_comment(int comment_id);
 };
 

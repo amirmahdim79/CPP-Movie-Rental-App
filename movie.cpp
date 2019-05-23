@@ -48,3 +48,17 @@ void Film::delete_comment(int comment_id) {
         }
     }
 }
+
+vector<Comment*> Film::get_comments() {
+    return comments;
+}
+
+double Film::get_rate() {
+    double new_rate = 0;
+    for (int i = 0; i < ratings.size(); i++) {
+        new_rate = new_rate + ratings[i]->get_score();
+    }
+    new_rate = new_rate / ratings.size();
+    this->rate = new_rate;
+    return new_rate;
+}

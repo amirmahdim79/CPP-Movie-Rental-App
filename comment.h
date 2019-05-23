@@ -19,6 +19,7 @@ public:
     int get_film_id() {return film_id;}
     std::string get_content() {return content;}
     void add_reply(Reply* reply);
+    std::vector<Reply*> get_replies() {return replies;}
 };
 
 #endif

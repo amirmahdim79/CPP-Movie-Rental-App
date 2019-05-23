@@ -70,6 +70,7 @@ public:
     void show_read_notifications(string line, int user);
     void film_details(int film_id);
     void show_comments_and_replies(int film_id);
+    void show_recommendation_films(int film_id);
     void add_reply(string line, int user);
     void delete_comment(string line, int user);
 

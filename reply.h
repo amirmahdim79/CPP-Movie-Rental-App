@@ -10,6 +10,7 @@ private:
     std::string content;
 public:
     Reply(int user_id, int commnet_id, std::string content);
+    std::string get_content();
 };
 
 #endif

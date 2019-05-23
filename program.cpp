@@ -256,6 +256,10 @@ void Program::do_command(string line, string method, string command) {
             int user = find_user(active_user);
             search_films(line, user);
         }
+        if (command == "purchased") {
+            int user = find_user(active_user);
+            show_purchased(line, user);
+        }
     }
     else if (method == "PUT") {
         if (command == "films") {
@@ -714,4 +718,90 @@ void Program::comment_on_film(string line, int user) {
     Notification* notif = new Notification(message);
     users[film->get_publisher_id()]->add_to_notifications(notif);
     std::cout << "OK" << std::endl;
+}
+
+void Program::show_purchased(string line, int user) {
+    int min_year = NOTSET;
+    int max_year = NOTSET;
+    int price = NOTSET;
+    string name = EMPTYSTRING;
+    string director = EMPTYSTRING;
+    vector<string> words = break_to_words(line);
+    for (int i = 0; i < words.size(); i++) {
+        if (words[i] == "name")
+            name = words[i + 1];
+        if (words[i] == "director")
+            director = words[i + 1];
+        if (words[i] == "min_year")
+            min_year = stoi(words[i + 1]);
+        if (words[i] == "max_year")
+            max_year = stoi(words[i + 1]);
+        if (words[i] == "price")
+            price = stoi(words[i + 1]);
+    }
+
+    vector<Film*> temp;
+    temp = users[user]->get_bought_films();
+    int smallest_film = 0;
+    vector<Film*> sorted_films;
+    while(1) {
+        if (temp.size() == 0)
+            break;
+        for (int i = 1; i < temp.size(); i++) {
+            if (i == temp.size())
+                break;
+            if (temp[smallest_film]->get_id() > temp[i]->get_id()) {
+                smallest_film = i;
+            }
+        }
+        sorted_films.push_back(temp[smallest_film]);
+        temp.erase(temp.begin() + smallest_film);
+        smallest_film = 0;
+    }
+
+    if (name != EMPTYSTRING) {
+       for (int i = 0; i < sorted_films.size(); i++) {
+            if (sorted_films[i]->get_name() != name) {
+                sorted_films.erase(sorted_films.begin() + i);
+                i--;
+            }
+        } 
+    }
+    if (director != EMPTYSTRING) {
+        for (int i = 0; i < sorted_films.size(); i++) {
+            if (sorted_films[i]->get_director() != director) {
+                sorted_films.erase(sorted_films.begin() + i);
+                i--;
+            }
+        }
+    }
+    if (price != NOTSET) {
+        for (int i = 0; i < sorted_films.size(); i++) {
+            if (sorted_films[i]->get_price() != price) {
+                sorted_films.erase(sorted_films.begin() + i);
+                i--;
+            }
+        }
+    }
+    if (max_year != NOTSET) {
+        for (int i = 0; i < sorted_films.size(); i++) {
+            if (sorted_films[i]->get_year() > max_year) {
+                sorted_films.erase(sorted_films.begin() + i);
+                i--;
+            }
+        }
+    }
+    if (min_year != NOTSET) {
+        for (int i = 0; i < sorted_films.size(); i++) {
+            if (sorted_films[i]->get_year() < min_year) {
+                sorted_films.erase(sorted_films.begin() + i);
+                i--;
+            }
+        }
+    }
+
+    std::cout << "#. Film Id | Film Name | Film Length | Film price | Rate | Production Year | Film Director" << std::endl;
+    for (int i = 0; i < sorted_films.size(); i++)
+        std::cout << i + 1 << ". " << sorted_films[i]->get_id() << " | " << sorted_films[i]->get_name() << " | " << sorted_films[i]->get_length() << " | " << sorted_films[i]->get_price() << " | " << sorted_films[i]->get_rate() << " | " << sorted_films[i]->get_year() << " | " << sorted_films[i]->get_director() << std::endl;
+    
 }

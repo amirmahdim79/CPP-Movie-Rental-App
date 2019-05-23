@@ -32,6 +32,7 @@ public:
     virtual int get_films_size() {return films.size();}
     virtual Film* get_film(int id) {}
     virtual vector<Film*> get_films() {}
+    virtual vector<Film*> get_bought_films();
 
     bool is_publisher();
 

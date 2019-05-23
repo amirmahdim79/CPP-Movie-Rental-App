@@ -51,3 +51,7 @@ void User::decrese_money(int amount) {
 void User::buy_film(Film* film) {
     bought_films.push_back(film);
 }
+
+vector<Film*> User::get_bought_films() {
+    return bought_films;
+}

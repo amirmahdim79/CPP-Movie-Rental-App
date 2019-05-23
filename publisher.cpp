@@ -40,24 +40,21 @@ void Publisher::delete_film(int id) {
 }
 
 void Publisher::show_followers() {
-    int location_to_delete = 0;
     vector<User*> temp = followers;
     int smallest_user = 0;
     vector<User*> sorted_followers;
     while(1) {
         if (temp.size() == 0)
             break;
-        for (int i = 1; i < temp.size(); i++) {
-            if (i == temp.size() - 1)
+        for (int i = 0; i < temp.size(); i++) {
+            if (i == temp.size())
                 break;
             if (temp[smallest_user]->get_id() > temp[i]->get_id()) {
-                location_to_delete = i;
                 smallest_user = i;
             }
         }
         sorted_followers.push_back(temp[smallest_user]);
-        temp.erase(temp.begin() + location_to_delete);
-        location_to_delete = 0;
+        temp.erase(temp.begin() + smallest_user);
         smallest_user = 0;
     }
     std::cout << "List of Followers" << std::endl << std::endl;

@@ -249,6 +249,11 @@ void Program::do_command(string line, string method, string command) {
             check_access_publisher();
             edit_film(line, user);
         }
+        if (command == "delete_film") {
+            int user = find_user(active_user);
+            check_access_publisher();
+            delete_film(line, user);
+        }
     }
     else if (method == "GET") {
         if (command == "followers") {
@@ -283,11 +288,7 @@ void Program::do_command(string line, string method, string command) {
         
     }
     else if (method == "DELETE") {
-        if (command == "films") {
-            int user = find_user(active_user);
-            check_access_publisher();
-            delete_film(line, user);
-        }
+        
         if (command == "comments") {
             int user = find_user(active_user);
             check_access_publisher();   

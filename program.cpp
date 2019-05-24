@@ -244,6 +244,11 @@ void Program::do_command(string line, string method, string command) {
             check_access_publisher();
             add_reply(line, user);
         }
+        if (command == "put_films") {
+            int user = find_user(active_user);
+            check_access_publisher();
+            edit_film(line, user);
+        }
     }
     else if (method == "GET") {
         if (command == "followers") {
@@ -257,7 +262,7 @@ void Program::do_command(string line, string method, string command) {
             //
             show_published(line, user);
         }
-        if (command == "films") {
+        if (command == "put_films") {
             int user = find_user(active_user);
             search_films(line, user);
         }
@@ -275,11 +280,7 @@ void Program::do_command(string line, string method, string command) {
         }
     }
     else if (method == "PUT") {
-        if (command == "films") {
-            int user = find_user(active_user);
-            check_access_publisher();
-            edit_film(line, user);
-        }
+        
     }
     else if (method == "DELETE") {
         if (command == "films") {

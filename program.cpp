@@ -207,12 +207,25 @@ void Program::do_command(string line, string method, string command) {
         throw e;
     }
     if (method == "POST") {
-        if (command == "signup")
-            signup(line);
+        if (command == "signup") {
+            if (active_user == -1)
+                signup(line);
+            else {
+                Error* e = new BadRequest;
+                throw e;
+            }
+
+        }
         if (command == "login") {
-            string un, pass = "";
-            read_username_password(line, un, pass);
-            login(un, pass);
+            if (active_user == -1) {
+                string un, pass = "";
+                read_username_password(line, un, pass);
+                login(un, pass);
+            }
+            else {
+                Error* e = new BadRequest;
+                throw e;
+            }
         }
         if (command == "films") {
             int user = find_user(active_user);

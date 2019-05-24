@@ -23,7 +23,7 @@ private:
     int film_id = 1;
     int active_user = -1;
     vector<string> methods = {"GET", "PUT", "POST", "DELETE"};
-    vector<string> commands = {"signup", "login", "delete_film", "put_films", "films", "followers", "money", "published",
+    vector<string> commands = {"signup", "login", "delete_film", "put_films", "delete_comments", "films", "followers", "money", "published",
                                 "replies", "comments", "followers", "buy", "rate", "purchased",
                                 "notifications", "notificationsread", ""};
     vector<string> usernames;

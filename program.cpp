@@ -272,6 +272,10 @@ void Program::do_command(string line, string method, string command) {
             check_access_publisher();   
             delete_comment(line, user);
         }
+        if (command == "logout") {
+            active_user = NOTSET;
+            std::cout << "OK" << std::endl;
+        }
     }
     else if (method == "GET") {
         if (command == "followers") {

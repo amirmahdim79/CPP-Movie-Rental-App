@@ -9,6 +9,7 @@
 #define EMPTYSPACE ' '
 #define EMPTYSTRING ""
 #define NOTSET -1
+#define ADMIN_ID 0
 
 Film* Program::get_film(int film_id) {
     for (int i = 0; i < all_films.size(); i++) {
@@ -61,6 +62,8 @@ vector<string> Program::break_to_words(string line) {
 
 void Program::run() {
     bool program_running = true;
+    User* admin = new Admin(ADMIN_ID);
+    users.push_back(admin);
     while (program_running) {
         try {
             this->get_command();
@@ -356,6 +359,11 @@ void Program::signup(string line) {
 }
 
 void Program::login(string username, string password) {
+    if (username == "admin" && password == "admin") {
+        active_user = 0;
+        std::cout << "OK" << std::endl;
+        return;
+    }
     check_user_exist(username);
     for (int i = 0; i < users.size(); i++) {
         if (username == users[i]->get_username()) {

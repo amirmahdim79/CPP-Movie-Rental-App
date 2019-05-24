@@ -14,6 +14,7 @@
 #include "rate.h"
 #include "comment.h"
 #include "reply.h"
+#include "admin.h"
 
 using namespace std;
 

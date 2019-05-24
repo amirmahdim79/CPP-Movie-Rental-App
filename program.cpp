@@ -288,6 +288,10 @@ void Program::do_command(string line, string method, string command) {
             int user = find_user(active_user);
             show_read_notifications(line, user);
         }
+        if (command == "money") {
+            int user = find_user(active_user);
+            std::cout << users[user]->get_money() << std::endl;
+        }
     }
     else if (method == "PUT") {
         

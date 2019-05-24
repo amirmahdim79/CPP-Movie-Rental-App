@@ -2,7 +2,11 @@
 #define ADMIN_H_
 
 #include "user.h"
+#include "program.h"
+
 #include <string>
+
+class Program;
 
 class Admin : public User {
 private:

@@ -34,6 +34,7 @@ public:
     virtual Film* get_film(int id) {}
     virtual vector<Film*> get_films() {}
     virtual vector<Film*> get_bought_films();
+    virtual int get_money_from_server() {}
 
     bool is_publisher();
 

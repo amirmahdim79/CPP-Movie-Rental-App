@@ -309,8 +309,26 @@ void Program::do_command(string line, string method, string command) {
             show_read_notifications(line, user);
         }
         if (command == "money") {
-            int user = find_user(active_user);
-            std::cout << users[user]->get_money() << std::endl;
+            if (active_user == 0) {
+                vector<int> money;
+                int earning = 0;
+                for (int i = 0; i < money_server.size(); i++) {
+                    if (money_server[i]->active == 0)
+                        continue;
+                    money.push_back(money_server[i]->get_amount());
+                }
+                for (int i = 0; i < server_earnings.size(); i++) {
+                    money.push_back(server_earnings[i]->get_amount());
+                }
+                for (int i = 0; i < money.size(); i++) {
+                    earning = earning + money[i];
+                }
+                std::cout << earning << std::endl;
+            }
+            else {
+                int user = find_user(active_user);
+                std::cout << users[user]->get_money() << std::endl;
+            }  
         }
     }
     else if (method == "PUT") {
@@ -627,6 +645,7 @@ void Program::add_money(string line, int user) {
                             double persend = 80 / 100;
                             earned_amount = money * persend;
                             server_earned = money - earned_amount;
+                            earnings[i]->amount = server_earned;
                             server_earnings.push_back(earnings[i]);
                             earnings[i]->active = 0;
                             users[user]->increase_money(earned_amount);
@@ -636,6 +655,7 @@ void Program::add_money(string line, int user) {
                             double persend = 90 / 100;
                             earned_amount = money * persend;
                             server_earned = money - earned_amount;
+                            earnings[i]->amount = server_earned;
                             server_earnings.push_back(earnings[i]);
                             earnings[i]->active = 0;
                             users[user]->increase_money(earned_amount);
@@ -645,6 +665,7 @@ void Program::add_money(string line, int user) {
                             double persend = 95 / 100;
                             earned_amount = money * persend;
                             server_earned = money - earned_amount;
+                            earnings[i]->amount = server_earned;
                             server_earnings.push_back(earnings[i]);
                             earnings[i]->active = 0;
                             users[user]->increase_money(earned_amount);

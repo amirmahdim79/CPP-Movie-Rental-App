@@ -2,8 +2,8 @@ CC := g++
 
 all: a.out
 
-a.out: main.o exceptions.o program.o user.o customer.o publisher.o movie.o notification.o money.o rate.o comment.o reply.o
-	$(CC) main.o exceptions.o program.o user.o customer.o publisher.o movie.o notification.o money.o rate.o comment.o reply.o -o a.out
+a.out: main.o exceptions.o program.o user.o customer.o publisher.o movie.o notification.o money.o rate.o comment.o reply.o admin.o
+	$(CC) main.o exceptions.o program.o user.o customer.o publisher.o movie.o notification.o money.o rate.o comment.o reply.o admin.o -o a.out
 
 main.o: program.h main.cpp
 	$(CC) -c main.cpp
@@ -40,6 +40,9 @@ comment.o: comment.h reply.h comment.cpp
 
 reply.o: reply.h reply.cpp
 	$(CC) -c reply.cpp
+
+admin.o: admin.h program.h admin.cpp
+	$(CC) -c admin.cpp
 
 .PHONY: clean
 clean:

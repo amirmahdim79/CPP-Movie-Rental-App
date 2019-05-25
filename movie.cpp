@@ -1,4 +1,5 @@
 #include "movie.h"
+#include "user.h"
 
 Film::Film(int year, int length, int price, string name, string summary, string director, int id, int publisher_id) {
     this->year = year;
@@ -61,4 +62,12 @@ double Film::get_rate() {
     new_rate = new_rate / ratings.size();
     this->rate = new_rate;
     return new_rate;
+}
+
+void Film::add_user(User* user) {
+    users.push_back(user);
+}
+
+vector<User*> Film::get_users() {
+    return users;
 }

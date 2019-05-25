@@ -12,7 +12,7 @@ exceptions.o: exceptions.h exceptions.cpp
 	$(CC) -c exceptions.cpp
 
 program.o: program.h exceptions.h user.h customer.h publisher.h movie.h notification.h money.h rate.h comment.h reply.h program.cpp
-	$(CC) -c sphere.cpp
+	$(CC) -c program.cpp
 
 user.o: user.h movie.h notification.h user.cpp
 	$(CC) -c user.cpp
@@ -23,7 +23,7 @@ customer.o: customer.h user.h customer.cpp
 publisher.o: publisher.h user.h movie.h publisher.cpp
 	$(CC) -c publisher.cpp
 
-movie.o: movie.h rate.h comment.h movie.cpp
+movie.o: movie.h rate.h user.h comment.h movie.cpp
 	$(CC) -c movie.cpp
 
 notification.o: notification.h notification.cpp

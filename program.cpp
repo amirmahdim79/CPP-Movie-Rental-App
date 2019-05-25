@@ -10,6 +10,7 @@
 #define EMPTYSTRING ""
 #define NOTSET -1
 #define ADMIN_ID 0
+#define EMPTY_INT 0
 
 Film* Program::get_film(int film_id) {
     for (int i = 0; i < all_films.size(); i++) {
@@ -331,12 +332,8 @@ void Program::do_command(string line, string method, string command) {
             }  
         }
     }
-    else if (method == "PUT") {
-        
-    }
-    else if (method == "DELETE") {
-        
-    }
+    else if (method == "PUT") {}
+    else if (method == "DELETE") {}
 }
 
 void Program::signup(string line) {
@@ -793,6 +790,7 @@ void Program::buy_film(string line, int user) {
     string message = "User " + users[user]->get_username() + " with id " + to_string(users[user]->get_id()) + " buy your film " + film->get_name() + " with id " + to_string(film->get_id());
     Notification* notif = new Notification(message);
     users[film->get_publisher_id() - 1]->add_to_notifications(notif);
+    film->add_user(users[user]);
     std::cout << "OK" << std::endl;
 }
 
@@ -985,20 +983,35 @@ void Program::show_recommendation_films(int film_id) {
     std::cout << "#. Film Id | Film Name | Film Length | Film Director" << std::endl;
     Film* film;
     film = this->get_film(film_id);
-    vector<Film*> films = all_films;
-    vector<Film*> recommended_films;
-    for (int i = 0; i < 4; i++) {
-        int max = 0;
-        for (int j = 0; j < films.size(); j++) {
-            if (films[max]->get_rate() < films[j]->get_rate())
-                max = j;
-        }
-        recommended_films.push_back(films[max]);
-        films.erase(films.begin() + max);
-        max = 0;
+    vector<User*> bought_users = film->get_users();
+    vector<int> elements;
+    for (int i = 0; i < all_films.size(); i++) {
+        elements.push_back(EMPTY_INT);
     }
-    for (int i = 0; i < films.size(); i++) {
-        std::cout << i + 1 << ". " << films[i]->get_id() << " | " << films[i]->get_name() << " | " << films[i]->get_length() << " | " << films[i]->get_director() << std::endl;
+    for (int i = 0; i < bought_users.size(); i++) {
+        vector<Film*> films = bought_users[i]->get_films();
+        for (int j = 0; j < films.size(); j++) {
+            int element = films[j]->get_id() - 1;
+            elements[element]++;
+        }
+    }
+    vector<int> places;
+    int max = 0;
+    for (int j = 0; j < 4; j++) {
+        for (int i = 0; i < elements.size(); i++) {
+            if (elements[max] < elements[i]) {
+                max = i;
+                places.push_back(max);
+                elements[max] = EMPTY_INT;
+            }
+        }
+        if (max == 0) {
+            places.push_back(max);
+            elements[max] = EMPTY_INT;
+        }
+    }
+    for (int i = 0; i < places.size(); i++) {
+        std::cout << i + 1 << ". " << all_films[elements[places[i]]]->get_id() << " | " << all_films[elements[places[i]]]->get_name() << " | " << all_films[elements[places[i]]]->get_length() << " | " << all_films[elements[places[i]]]->get_director() << std::endl;
     }
 }
 

@@ -7,6 +7,8 @@
 #include "comment.h"
 using namespace std;
 
+class User;
+
 class Film {
 private:
     int publisher_id;
@@ -21,6 +23,7 @@ private:
     double rate;
     vector<Comment*> comments;
     vector<Rate*> ratings;
+    vector<User*> users;
 public:
     Film(int year, int length, int price, string name, string summary, string director, int id, int publisher_id);
     int get_id();
@@ -46,6 +49,8 @@ public:
     Comment* get_comment(int comment_id);
     vector<Comment*> get_comments();
     void delete_comment(int comment_id);
+    void add_user(User* user);
+    vector<User*> get_users();
 };
 
 #endif
